@@ -1,29 +1,33 @@
 import React from "react";
 
-const KitFilterBar = ({ filters, onChange }) => {
+const KitFilterBar = ({ filters, onChange, clubs, brands, seasons }) => {
   return (
     <div className="filter-bar">
-      <select name="club" onChange={onChange}>
+      
+
+      <select name="club" value={filters.club} onChange={onChange}>
         <option value="">All Clubs</option>
-        <option value="Arsenal">Arsenal</option>
-        <option value="Real Madrid">Real Madrid</option>
-        <option value="Liverpool">Liverpool</option>
-        
+        {clubs.map((club) => (
+          <option key={club} value={club}>{club}</option>
+        ))}
       </select>
 
-      <select name="brand" onChange={onChange}>
+
+      <select name="brand" value={filters.brand} onChange={onChange}>
         <option value="">All Brands</option>
-        <option value="Nike">Nike</option>
-        <option value="Adidas">Adidas</option>
-        <option value="Puma">Puma</option>
+        {brands.map((brand) => (
+          <option key={brand} value={brand}>{brand}</option>
+        ))}
       </select>
 
-      <select name="season" onChange={onChange}>
+
+      <select name="season" value={filters.season} onChange={onChange}>
         <option value="">All Seasons</option>
-        <option value="2023/24">2023/24</option>
-        <option value="2022/23">2022/23</option>
-        <option value="2010/11">2010/11</option>
+        {seasons.map((season) => (
+          <option key={season} value={season}>{season}</option>
+        ))}
       </select>
+
     </div>
   );
 };

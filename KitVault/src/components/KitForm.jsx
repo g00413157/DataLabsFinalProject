@@ -1,47 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const KitForm = ({ onSubmit, initialData = {} }) => {
+const KitForm = () => {
+  const { id } = useParams();          
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
-    name: initialData.name || "",
-    club: initialData.club || "",
-    season: initialData.season || "",
-    player: initialData.player || "",
-    brand: initialData.brand || "",
-    condition: initialData.condition || "",
-    value: initialData.value || "",
-    imageUrl: initialData.imageUrl || "",
+    name: "",
+    club: "",
+    season: "",
+    player: "",
+    brand: "",
+    condition: "",
+    value: "",
+    imageUrl: ""
   });
+
+  const isEditing = Boolean(id);
+
+  useEffect(() => {
+    if (isEditing) {
+      
+      fetch(`http://localhost:3000/api/kits/${id}`)
+        .then(res => res.json())
+        .then(data => setForm(data));
+    }
+  }, [id, isEditing]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(form);
+
+    const url = isEditing
+      ? `http://localhost:3000/api/kits/${id}`
+      : `http://localhost:3000/api/kits`;
+
+    const method = isEditing ? "PUT" : "POST";
+
+    await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    navigate("/collection");
   };
 
   return (
     <form className="kit-form" onSubmit={handleSubmit}>
-      <h2>{initialData ? "Edit Kit" : "Add New Kit"}</h2>
+      <h2>{isEditing ? "Edit Kit" : "Add New Kit"}</h2>
 
-      <input name="name" placeholder="Kit Name" value={form.name} onChange={handleChange} />
+      <input name="name" value={form.name} onChange={handleChange} placeholder="Kit Name" />
+      <input name="club" value={form.club} onChange={handleChange} placeholder="Club" />
+      <input name="season" value={form.season} onChange={handleChange} placeholder="Season" />
+      <input name="player" value={form.player} onChange={handleChange} placeholder="Player" />
+      <input name="brand" value={form.brand} onChange={handleChange} placeholder="Brand" />
+      <input name="condition" value={form.condition} onChange={handleChange} placeholder="Condition" />
+      <input name="value" value={form.value} onChange={handleChange} placeholder="Value" />
+      <input name="imageUrl" value={form.imageUrl} onChange={handleChange} placeholder="Image URL" />
 
-      <input name="club" placeholder="Club" value={form.club} onChange={handleChange} />
-
-      <input name="season" placeholder="Season" value={form.season} onChange={handleChange} />
-
-      <input name="player" placeholder="Player Name/Number" value={form.player} onChange={handleChange} />
-
-      <input name="brand" placeholder="Brand (Nike, Adidas...)" value={form.brand} onChange={handleChange} />
-
-      <input name="condition" placeholder="Condition" value={form.condition} onChange={handleChange} />
-
-      <input name="value" placeholder="Estimated Value (€)" value={form.value} onChange={handleChange} />
-
-      <input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} />
-
-      <button type="submit">Save Kit</button>
+      <button type="submit">
+        {isEditing ? "Save Changes" : "Add Kit"}
+      </button>
     </form>
   );
 };

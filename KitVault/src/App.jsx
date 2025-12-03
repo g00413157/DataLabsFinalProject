@@ -17,9 +17,45 @@ function App() {
 
         <main>
           <Routes>
-            <Route path="/" element={<h1>Welcome to KitVault</h1>} />
+
+            <Route
+              path="/"
+              element={
+                <div className="home-page">
+                  <section className="hero">
+                    <h1>Welcome to KitVault</h1>
+                    <p>
+                      Store, browse, and manage your entire football kit collection in one beautiful place.
+                    </p>
+                    <a href="/collection" className="home-cta">View My Kits</a>
+                  </section>
+
+
+                  <section className="features">
+                    <div className="feature-card">
+                      <h3>📦 Organise</h3>
+                      <p>Keep track of every football kit you own with full details and images.</p>
+                    </div>
+
+                    <div className="feature-card">
+                      <h3>🎨 Customise</h3>
+                      <p>Edit kits, update images, and expand your kit vault easily.</p>
+                    </div>
+
+                    <div className="feature-card">
+                      <h3>📊 Stats</h3>
+                      <p>See total value, number of kits, and deeper insights into your collection.</p>
+                    </div>
+                  </section>
+
+                </div>
+              }
+            />
+
+
             <Route path="/collection" element={<KitList />} />
             <Route path="/add" element={<KitForm />} />
+            <Route path="/edit/:id" element={<KitForm />} />
             <Route path="/kits/:id" element={<KitDetails />} />
             <Route path="/stats" element={<KitStats />} />
           </Routes>
