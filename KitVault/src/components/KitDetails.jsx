@@ -10,7 +10,7 @@ const KitDetails = () => {
     fetch(`http://localhost:3000/api/kits/${id}`)
       .then((res) => res.json())
       .then((data) => setKit(data))
-      .catch((err) => console.error("Error loading kit:", err));
+      .catch(() => {});
   }, [id]);
 
   const handleDelete = async () => {
@@ -26,16 +26,26 @@ const KitDetails = () => {
 
   if (!kit) return <p>Loading...</p>;
 
+  const imageSrc = kit.imageUrl
+  ? kit.imageUrl.startsWith("data:image")
+    ? kit.imageUrl                   
+    : kit.imageUrl.startsWith("http")
+      ? kit.imageUrl                    
+      : `http://localhost:3000${kit.imageUrl}`
+  : null;
+
+
   return (
     <div className="kit-details-wrapper">
-
-    
       <button className="back-btn" onClick={() => navigate(-1)}>
-        ← Back
+        Back
       </button>
 
       <div className="kit-details">
-        <img src={kit.imageUrl} alt={kit.name} className="details-image" />
+        {imageSrc && (
+          <img src={imageSrc} alt={kit.name} className="details-image" />
+        )}
+
         <h2>{kit.name}</h2>
 
         <p><strong>Club:</strong> {kit.club}</p>
@@ -49,7 +59,6 @@ const KitDetails = () => {
           <Link to={`/edit/${kit._id}`} className="edit-btn">
             Edit
           </Link>
-
           <button onClick={handleDelete} className="delete-btn">
             Delete
           </button>

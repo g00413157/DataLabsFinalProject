@@ -6,6 +6,7 @@ import KitList from "./components/KitList";
 import KitForm from "./components/KitForm";
 import KitDetails from "./components/KitDetails";
 import KitStats from "./components/KitStats";
+import QuizPage from "./components/QuizPage";
 
 import "./App.css";
 
@@ -58,6 +59,7 @@ function App() {
             <Route path="/edit/:id" element={<KitForm />} />
             <Route path="/kits/:id" element={<KitDetails />} />
             <Route path="/stats" element={<KitStats />} />
+            <Route path="/quiz" element={<QuizPage />} />
           </Routes>
         </main>
 
