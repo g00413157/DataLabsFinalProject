@@ -162,7 +162,7 @@ const QuizQuestion = mongoose.model(
 app.get("/api/quiz", async (req, res) => {
   try {
     const questions = await QuizQuestion.aggregate([
-      { $sample: { size: 20 } }
+      { $sample: { size: 10 } }
     ]);
 
     res.json({ questions });
