@@ -31,7 +31,7 @@ const KitFilterBar = ({ filters, onChange, clubs, brands, seasons }) => {
         ))}
       </select>
 
-      {/* pushes button to the right */}
+     
       <div className="filter-spacer" />
 
       <Link to="/add" className="add-kit-btn">
